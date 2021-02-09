@@ -21,7 +21,7 @@ public class LoginAndPassword implements UserDetails {
     @Column
     private String password;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "loginandpassword_id"), inverseJoinColumns = @JoinColumn(name = "roles_id"))
     private Set<Role> roles;
 
@@ -38,21 +38,6 @@ public class LoginAndPassword implements UserDetails {
         this.roles = roles;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     public String getLogin() {
         return login;

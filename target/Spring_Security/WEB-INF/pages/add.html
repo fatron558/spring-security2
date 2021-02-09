@@ -31,11 +31,9 @@
         <br/>
         <select id="roles" th:field="*{roles}" size="2" multiple="multiple">
             <option th:each="role : ${allRoles}"
-                    th:value="${{role}}"
-                    th:text="${role.role}">Role name</option>
+                    th:value="${{role.id}}"
+                    th:text="${role}">Role name</option>
         </select>
-
-
     </div>
 
     <input type="submit" value="Save new User"/>

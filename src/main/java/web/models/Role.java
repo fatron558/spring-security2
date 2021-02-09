@@ -18,8 +18,9 @@ public class Role implements GrantedAuthority {
     @Column(unique = true)
     private String role;
 
+
     @ManyToMany(mappedBy = "roles")
-    private List<LoginAndPassword> loginAndPasswordList = new ArrayList<>(0);
+    private List<LoginAndPassword> loginAndPasswordList = new ArrayList<>();
 
     public Role() {
 

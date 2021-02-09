@@ -46,12 +46,7 @@ public class UserController {
 
     @PostMapping("/users/add")
     public String saveUser(@ModelAttribute("user") User user, @ModelAttribute("login") LoginAndPassword login) {
-//        Set<Role> roles = user.getLoginAndPassword().getRoles();
-//        Set<Role> newRoles = new HashSet<>();
-//        for (Role role : roles) {
-//            newRoles.add(roleService.getRole(role.getId()));
-//        }
-//        user.getLoginAndPassword().setRoles(newRoles);
+        user.setLoginAndPassword(login);
         userService.saveUser(user);
         return "redirect:/users";
     }
