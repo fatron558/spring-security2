@@ -2,10 +2,10 @@ package web.dao;
 
 import org.springframework.stereotype.Repository;
 import web.models.Role;
-import web.models.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,5 +31,13 @@ public class RoleDaoImpl implements RoleDao {
         return em.find(Role.class, id);
     }
 
+    @Override
+    @Transactional
+    @SuppressWarnings("unchecked")
+    public Role findRoleByName(String role) {
+        return (Role) em.createQuery("select r from Role r where lower(r.role) like :role")
+                .setParameter("role", "%" + role.toLowerCase() + "%")
+                .getSingleResult();
+    }
 
 }

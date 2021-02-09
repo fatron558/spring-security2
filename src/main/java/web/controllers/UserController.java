@@ -5,12 +5,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import web.models.LoginAndPassword;
 import web.models.Role;
 import web.models.User;
 import web.service.RoleService;
 import web.service.UserService;
-import web.service.UserServiceImpl;
 
 import java.util.*;
 
@@ -38,15 +36,18 @@ public class UserController {
     @GetMapping("/users/add")
     public String addNewUser(Model model) {
             model.addAttribute("user", new User());
-            model.addAttribute("login", new LoginAndPassword());
             model.addAttribute("allRoles", roleService.getAll());
         return "add";
     }
 
 
     @PostMapping("/users/add")
-    public String saveUser(@ModelAttribute("user") User user, @ModelAttribute("login") LoginAndPassword login) {
-        user.setLoginAndPassword(login);
+    public String saveUser(@ModelAttribute("user") User user, @RequestParam("allRoles") String [] roles) {
+        Set<Role> rolesSet = new HashSet<>();
+        for (String role : roles) {
+            rolesSet.add(roleService.findRoleByName(role));
+        }
+        user.setRoles(rolesSet);
         userService.saveUser(user);
         return "redirect:/users";
     }

@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@Entity
-@Table(name = "roles")
+@Entity(name = "Role")
+@Table(name = "role")
 public class Role implements GrantedAuthority {
 
     @Id
@@ -20,14 +20,10 @@ public class Role implements GrantedAuthority {
 
 
     @ManyToMany(mappedBy = "roles")
-    private List<LoginAndPassword> loginAndPasswordList = new ArrayList<>();
+    private List<User> users = new ArrayList<>();
 
     public Role() {
 
-    }
-
-    public Role(String role) {
-        this.role = role;
     }
 
     public Long getId() {
@@ -38,20 +34,20 @@ public class Role implements GrantedAuthority {
         this.id = id;
     }
 
-    public List<LoginAndPassword> getLoginAndPasswordList() {
-        return loginAndPasswordList;
-    }
-
-    public void setLoginAndPasswordList(List<LoginAndPassword> loginAndPasswordList) {
-        this.loginAndPasswordList = loginAndPasswordList;
-    }
-
     public String getRole() {
         return role;
     }
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 
     @Override

@@ -10,4 +10,6 @@ public interface RoleService {
     public Set<Role> getAll();
 
     Role getRole(long id);
+
+    Role findRoleByName(String role);
 }

@@ -19,22 +19,28 @@
     <label for="age">Enter Age: </label>
     <input type="text" th:field="*{age}" id="age"/>
     <br/><br/><br/>
-    <div th:object="${login}">
-        <label for="login">Enter Login: </label>
-        <input type="text" th:field="*{login}" id="login"/>
-        <br/>
-        <label for="password">Enter Password: </label>
-        <input type="text" th:field="*{password}" id="password"/>
-        <br/>
 
-        <label for="roles">Roles (multiple select):</label>
-        <br/>
-        <select id="roles" th:field="*{roles}" size="2" multiple="multiple">
-            <option th:each="role : ${allRoles}"
-                    th:value="${{role}}"
-                    th:text="${role}">Role name</option>
-        </select>
-    </div>
+    <label for="login">Enter Login: </label>
+    <input type="text" th:field="*{login}" id="login"/>
+    <br/>
+    <label for="password">Enter Password: </label>
+    <input type="text" th:field="*{password}" id="password"/>
+    <br/>
+
+<!--    <label for="roles">Roles (multiple select):</label>-->
+<!--    <br/>-->
+<!--    <select id="roles" th:field="*{roles}" size="2" multiple="multiple">-->
+<!--        <option th:each="role : ${allRoles}"-->
+<!--                th:value="${role.role}"-->
+<!--                th:text="${role.role}">Role name</option>-->
+<!--    </select>-->
+
+    <label>Roles:</label>
+    <input type="checkbox" name="allRoles"
+           th:each="role : ${allRoles}"
+           th:text="${role.role}"
+           th:value="${role.role}"
+    />
 
     <input type="submit" value="Save new User"/>
 </form>
