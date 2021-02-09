@@ -5,11 +5,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import web.models.LoginAndPassword;
+import web.models.Role;
 import web.models.User;
+import web.service.RoleService;
 import web.service.UserService;
+import web.service.UserServiceImpl;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 @Controller
@@ -18,9 +21,12 @@ public class UserController {
 
     private final UserService userService;
 
+    private final RoleService roleService;
+
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, RoleService roleService) {
         this.userService = userService;
+        this.roleService = roleService;
     }
 
     @GetMapping("/users")
@@ -29,16 +35,27 @@ public class UserController {
         return "users";
     }
 
-    @GetMapping("/add")
-    public String addNewUser(@ModelAttribute("user") User user) {
+    @GetMapping("/users/add")
+    public String addNewUser(Model model) {
+            model.addAttribute("user", new User());
+            model.addAttribute("login", new LoginAndPassword());
+            model.addAttribute("allRoles", roleService.getAll());
         return "add";
     }
 
-    @PostMapping()
-    public String saveUser(@ModelAttribute("user") User user) {
+
+    @PostMapping("/users/add")
+    public String saveUser(@ModelAttribute("user") User user, @ModelAttribute("login") LoginAndPassword login) {
+//        Set<Role> roles = user.getLoginAndPassword().getRoles();
+//        Set<Role> newRoles = new HashSet<>();
+//        for (Role role : roles) {
+//            newRoles.add(roleService.getRole(role.getId()));
+//        }
+//        user.getLoginAndPassword().setRoles(newRoles);
         userService.saveUser(user);
-        return "redirect:/";
+        return "redirect:/users";
     }
+
 
     @GetMapping("/edit")
     public String edit(@RequestParam(name = "id") int id, ModelMap model) {

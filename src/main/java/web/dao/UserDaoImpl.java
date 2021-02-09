@@ -5,11 +5,12 @@ import web.models.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import java.util.List;
 
 @Repository
 public class UserDaoImpl implements UserDao {
+
+
 
     @PersistenceContext
     private EntityManager em;
