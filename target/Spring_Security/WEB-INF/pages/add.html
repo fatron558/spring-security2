@@ -27,21 +27,21 @@
     <input type="text" th:field="*{password}" id="password"/>
     <br/>
 
-<!--    <label for="roles">Roles (multiple select):</label>-->
-<!--    <br/>-->
-<!--    <select id="roles" th:field="*{roles}" size="2" multiple="multiple">-->
-<!--        <option th:each="role : ${allRoles}"-->
-<!--                th:value="${role.role}"-->
-<!--                th:text="${role.role}">Role name</option>-->
-<!--    </select>-->
+    <label for="allRoles">Roles (multiple select):</label>
+    <br/>
+    <select id="allRoles" name="allRoles" size="2" multiple="multiple">
+        <option th:each="role : ${allRoles}"
+                th:value="${role.role}"
+                th:text="${role.role}">Role name</option>
+    </select>
 
-    <label>Roles:</label>
-    <input type="checkbox" name="allRoles"
-           th:each="role : ${allRoles}"
-           th:text="${role.role}"
-           th:value="${role.role}"
-    />
-    
+<!--    <label>Roles:</label>-->
+<!--    <input type="checkbox" name="allRoles"-->
+<!--           th:each="role : ${allRoles}"-->
+<!--           th:text="${role.role}"-->
+<!--           th:value="${role.role}"-->
+<!--    />-->
+
     <input type="submit" value="Save new User"/>
 </form>
 

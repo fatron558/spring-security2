@@ -42,33 +42,45 @@ public class UserController {
 
 
     @PostMapping("/users/add")
-    public String saveUser(@ModelAttribute("user") User user, @RequestParam("allRoles") String [] roles) {
-        Set<Role> rolesSet = new HashSet<>();
-        for (String role : roles) {
-            rolesSet.add(roleService.findRoleByName(role));
+    public String saveUser(@ModelAttribute("user") User user,
+                           @RequestParam(name ="allRoles", required = false) String[] roles) {
+        if (roles != null) {
+            Set<Role> rolesSet = new HashSet<>();
+            for (String role : roles) {
+                rolesSet.add(roleService.findRoleByName(role));
+            }
+            user.setRoles(rolesSet);
         }
-        user.setRoles(rolesSet);
         userService.saveUser(user);
         return "redirect:/users";
     }
 
 
-    @GetMapping("/edit")
+    @GetMapping("/users/edit")
     public String edit(@RequestParam(name = "id") int id, ModelMap model) {
         model.addAttribute("user", userService.getUser(id));
+        model.addAttribute("allRoles", roleService.getAll());
         return "edit";
     }
 
-    @PostMapping("/edit")
-    public String editUser(@ModelAttribute("user") User user) {
+    @PostMapping("/users/edit")
+    public String editUser(@ModelAttribute("user") User user,
+                           @RequestParam(name = "allRoles", required = false) String[] roles) {
+        if (roles != null) {
+            Set<Role> rolesSet = new HashSet<>();
+            for (String role : roles) {
+                rolesSet.add(roleService.findRoleByName(role));
+            }
+            user.setRoles(rolesSet);
+        }
         userService.editUser(user);
         return "redirect:/users";
     }
 
-    @GetMapping("/delete")
+    @GetMapping("/users/delete")
     public String delete(@RequestParam(name = "id") int id) {
         userService.deleteUser(id);
-        return "redirect:/";
+        return "redirect:/users";
     }
 
     @RequestMapping(value = "hello", method = RequestMethod.GET)

@@ -8,7 +8,7 @@
 <h2>Edit User</h2>
 <br>
 
-<form th:method="POST" th:action="@{/edit?id={id}(id=${user.getId()})}" th:object="${user}">
+<form th:method="POST" th:action="@{/users/edit?id={id}(id=${user.getId()})}" th:object="${user}">
     <label for="firstName">FirstName: </label>
     <input type="text" th:field="*{firstName}" id="firstName"/>
     <br/>
@@ -17,7 +17,22 @@
     <br/>
     <label for="age">Age: </label>
     <input type="text" th:field="*{age}" id="age"/>
+    <br/><br/><br/>
+
+    <label for="login">Enter Login: </label>
+    <input type="text" th:field="*{login}" id="login"/>
     <br/>
+    <label for="password">Enter Password: </label>
+    <input type="text" th:field="*{password}" id="password"/>
+    <br/>
+
+    <label for="allRoles">Roles (multiple select):</label>
+    <br/>
+    <select id="allRoles" name="allRoles" size="2" multiple="multiple">
+        <option th:each="role : ${allRoles}"
+                th:value="${role.role}"
+                th:text="${role.role}">Role name</option>
+    </select>
 
     <input type="submit" value="Ok"/>
 </form>

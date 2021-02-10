@@ -13,6 +13,9 @@
         <th>FirstName</th>
         <th>LastName</th>
         <th>Age</th>
+        <th>Login</th>
+        <th>Password</th>
+        <th>Role</th>
         <th>Operations</th>
     </tr>
     <tr th:each="user : ${users}">
@@ -20,7 +23,11 @@
         <td th:utext="${user.firstName}"></td>
         <td th:utext="${user.lastName}"></td>
         <td th:utext="${user.age}"></td>
-        <td> <a th:href="@{/edit?id={id}(id=${user.getId()})}" th:text="Edit">Edit</a> <a th:href="@{/delete?id={id}(id=${user.getId()})}" th:text="Delete">Delete</a></td>
+        <td th:utext="${user.login}"></td>
+        <td th:utext="${user.password}"></td>
+        <td> <ul th:each="role : ${user.roles}">
+            <li th:text="${role.role}">Role</li></ul></td>
+        <td> <a th:href="@{/users/edit?id={id}(id=${user.getId()})}" th:text="Edit">Edit</a> <a th:href="@{/users/delete?id={id}(id=${user.getId()})}" th:text="Delete">Delete</a></td>
     </tr>
 </table>
 <br>
