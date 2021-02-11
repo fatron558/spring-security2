@@ -1,5 +1,6 @@
 package web.dao;
 
+import org.springframework.security.core.userdetails.UserDetails;
 import web.models.User;
 
 import java.util.List;
@@ -15,4 +16,6 @@ public interface UserDao {
     void editUser(User user);
 
     void deleteUser(int id);
+
+    UserDetails getUserByName(String login);
 }

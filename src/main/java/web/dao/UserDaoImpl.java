@@ -1,10 +1,12 @@
 package web.dao;
 
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 import web.models.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.List;
 
 @Repository
@@ -38,5 +40,12 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void deleteUser(int id) {
         em.remove(getUser(id));
+    }
+
+    @Override
+    public UserDetails getUserByName(String login) {
+        Query query = em.createQuery("select u from User u where u.login = :login")
+                .setParameter("login", login);
+        return (UserDetails) query.getSingleResult();
     }
 }

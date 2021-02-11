@@ -1,6 +1,7 @@
 package web.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -27,13 +28,13 @@ public class UserController {
         this.roleService = roleService;
     }
 
-    @GetMapping("/users")
+    @GetMapping("/admin")
     public String getAllUsers(Model model) {
         model.addAttribute("users", userService.getAllUsers());
-        return "users";
+        return "admin";
     }
 
-    @GetMapping("/users/add")
+    @GetMapping("/admin/add")
     public String addNewUser(Model model) {
             model.addAttribute("user", new User());
             model.addAttribute("allRoles", roleService.getAll());
@@ -41,7 +42,7 @@ public class UserController {
     }
 
 
-    @PostMapping("/users/add")
+    @PostMapping("/admin/add")
     public String saveUser(@ModelAttribute("user") User user,
                            @RequestParam(name ="allRoles", required = false) String[] roles) {
         if (roles != null) {
@@ -52,18 +53,18 @@ public class UserController {
             user.setRoles(rolesSet);
         }
         userService.saveUser(user);
-        return "redirect:/users";
+        return "redirect:/admin";
     }
 
 
-    @GetMapping("/users/edit")
+    @GetMapping("/admin/edit")
     public String edit(@RequestParam(name = "id") int id, ModelMap model) {
         model.addAttribute("user", userService.getUser(id));
         model.addAttribute("allRoles", roleService.getAll());
         return "edit";
     }
 
-    @PostMapping("/users/edit")
+    @PostMapping("/admin/edit")
     public String editUser(@ModelAttribute("user") User user,
                            @RequestParam(name = "allRoles", required = false) String[] roles) {
         if (roles != null) {
@@ -74,23 +75,20 @@ public class UserController {
             user.setRoles(rolesSet);
         }
         userService.editUser(user);
-        return "redirect:/users";
+        return "redirect:/admin";
     }
 
-    @GetMapping("/users/delete")
+    @GetMapping("/admin/delete")
     public String delete(@RequestParam(name = "id") int id) {
         userService.deleteUser(id);
-        return "redirect:/users";
+        return "redirect:/admin";
     }
 
-    @RequestMapping(value = "hello", method = RequestMethod.GET)
-    public String printWelcome(ModelMap model) {
-        List<String> messages = new ArrayList<>();
-        messages.add("Hello!");
-        messages.add("I'm Spring MVC-SECURITY application");
-        messages.add("5.2.0 version by sep'19 ");
-        model.addAttribute("messages", messages);
-        return "hello";
+    @GetMapping("/user")
+    public String userInfo(Model model) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("user", user);
+        return "userInfo";
     }
 
     @RequestMapping(value = "login", method = RequestMethod.GET)

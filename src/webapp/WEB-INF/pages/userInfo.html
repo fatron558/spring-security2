@@ -2,10 +2,10 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>All Users</title>
+    <title>User Info</title>
 </head>
 <body>
-<h2>All Users</h2>
+<h2>User Info</h2>
 <br>
 
 <table cellspacing="10" cellpadding="5" border="1">
@@ -16,9 +16,8 @@
         <th>Login</th>
         <th>Password</th>
         <th>Role</th>
-        <th>Operations</th>
     </tr>
-    <tr th:each="user : ${users}">
+    <tr>
 
         <td th:utext="${user.firstName}"></td>
         <td th:utext="${user.lastName}"></td>
@@ -27,10 +26,13 @@
         <td th:utext="${user.password}"></td>
         <td> <ul th:each="role : ${user.roles}">
             <li th:text="${role.role}">Role</li></ul></td>
-        <td> <a th:href="@{/users/edit?id={id}(id=${user.getId()})}" th:text="Edit">Edit</a> <a th:href="@{/users/delete?id={id}(id=${user.getId()})}" th:text="Delete">Delete</a></td>
     </tr>
 </table>
+<br><br><br>
+
+<form th:action="@{/logout}" method="post">
+    <button type="submit">Sign Out</button>
+</form>
 <br>
-<input type="button" value="Add new User" onclick="window.location.href='/users/add'"/>
 </body>
 </html>
